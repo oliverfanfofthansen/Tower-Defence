@@ -20,8 +20,9 @@ public class TowerAttack : MonoBehaviour
 
         if (target != null)
         {
-            Debug.Log("Tower found an enemy!");
-            
+            // Viser ei melding når tårnet oppdagar ein fiende
+            Debug.Log("Tower found enemy: " + target.name);
+
             GameObject bullet = Instantiate(
                 bulletPrefab,
                 transform.position,
