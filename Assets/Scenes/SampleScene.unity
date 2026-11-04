@@ -631,7 +631,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 520429651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1847338231}
+        m_TargetAssemblyTypeName: TowerPlacement, Assembly-CSharp
+        m_MethodName: SelectFarmTower
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &520429651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3054,7 +3066,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 685040591}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1847338231}
+        m_TargetAssemblyTypeName: TowerPlacement, Assembly-CSharp
+        m_MethodName: SelectMeleeTower
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &685040591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3514,6 +3538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1142335307}
   - component: {fileID: 1142335308}
+  - component: {fileID: 1142335309}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -3574,6 +3599,20 @@ MonoBehaviour:
     mediumCount: 1
     tankCount: 1
   currentWave: 0
+  startingReward: 50
+  rewardIncrease: 10
+--- !u!114 &1142335309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142335306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28337f0d5a4c0841979cc6da7a12826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveCounter
 --- !u!1 &1188124765
 GameObject:
   m_ObjectHideFlags: 0
@@ -4592,7 +4631,11 @@ MonoBehaviour:
   groundTilemap: {fileID: 654989260}
   grassTile: {fileID: 11400000, guid: 0627a5fd130067546a66354fca8b6f72, type: 2}
   rangedTowerPrefab: {fileID: 5163006152547122378, guid: b852c1803cec9f24aaa092ff1f764c57, type: 3}
+  meleeTowerPrefab: {fileID: 5163006152547122378, guid: 3a8fb2ff8556fa246bef6d77424535ac, type: 3}
+  farmTowerPrefab: {fileID: 5163006152547122378, guid: 6eb9164409afa684180c936cf0461175, type: 3}
   rangedTowerCost: 50
+  meleeTowerCost: 75
+  farmTowerCost: 100
 --- !u!4 &1847338232
 Transform:
   m_ObjectHideFlags: 0
