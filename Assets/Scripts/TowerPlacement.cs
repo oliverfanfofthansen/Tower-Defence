@@ -7,25 +7,25 @@ using System.Collections.Generic;
 
 public class TowerPlacement : MonoBehaviour
 {
-    // Kameraet som viser spelet
+    // Kameraet og kartet
     public Camera gameCamera;
-
-    // Tilemap-et som inneheld gras og veg
     public Tilemap groundTilemap;
-
-    // Tile-typen det er lov å byggje på
     public TileBase grassTile;
 
-    // Tårnet me skal plassere
+    // Tårnet spelaren kan kjøpe
     public GameObject rangedTowerPrefab;
 
-    // Er spelaren i byggjemodus?
+    // Prisen på eitt Ranged Tower
+    public int rangedTowerCost = 50;
+
+    // Om spelaren er i byggjemodus
     private bool isPlacing = false;
 
-    // Hugsar rutene som allereie har eit tårn
-    private HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
+    // Hugsar rutene som har tårn
+    private HashSet<Vector3Int> occupiedCells =
+        new HashSet<Vector3Int>();
 
-    // Blir kalla når spelaren trykkjer Ranged i hotbaren
+    // Blir kalla frå Ranged-knappen i hotbaren
     public void SelectRangedTower()
     {
         isPlacing = true;
@@ -34,7 +34,7 @@ public class TowerPlacement : MonoBehaviour
 
     void Update()
     {
-        // Gjer ingenting dersom me ikkje byggjer
+        // Stoppar dersom spelaren ikkje byggjer
         if (!isPlacing || Mouse.current == null)
             return;
 
@@ -45,63 +45,90 @@ public class TowerPlacement : MonoBehaviour
             return;
         }
 
-        // Vent på venstre museklikk
+        // Ventar på venstreklikk
         if (!Mouse.current.leftButton.wasPressedThisFrame)
             return;
 
-        // Ikkje plasser tårn når spelaren klikkar på UI
+        // Hindrar plassering når me klikkar på UI
         if (EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject())
             return;
 
-        // Sjekk at alt er kopla riktig i Inspector
-        if (gameCamera == null || groundTilemap == null ||
-            grassTile == null || rangedTowerPrefab == null)
+        // Kontrollerer at referansane er kopla til
+        if (gameCamera == null ||
+            groundTilemap == null ||
+            grassTile == null ||
+            rangedTowerPrefab == null)
         {
             Debug.LogWarning("TowerPlacement manglar referansar!");
             return;
         }
 
-        // Finn museposisjonen på skjermen
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        // Hentar museposisjonen
+        Vector2 mousePosition =
+            Mouse.current.position.ReadValue();
 
-        // Konverterer museposisjonen til posisjon i spelverda
-        Vector3 worldPosition = gameCamera.ScreenToWorldPoint(
-            new Vector3(
-                mousePosition.x,
-                mousePosition.y,
-                -gameCamera.transform.position.z
-            )
-        );
+        // Gjer skjermposisjonen om til verdsposisjon
+        Vector3 worldPosition =
+            gameCamera.ScreenToWorldPoint(
+                new Vector3(
+                    mousePosition.x,
+                    mousePosition.y,
+                    -gameCamera.transform.position.z
+                )
+            );
 
-        // Finn kva rute spelaren klikka på
-        Vector3Int cell = groundTilemap.WorldToCell(worldPosition);
+        // Finn ruta spelaren klikka på
+        Vector3Int cell =
+            groundTilemap.WorldToCell(worldPosition);
 
-        // Sjekk om ruta er gras
+        // Berre grastilen er lov å byggje på
         if (groundTilemap.GetTile(cell) != grassTile)
         {
             Debug.Log("Du kan berre byggje på gras!");
             return;
         }
 
-        // Sjekk om det allereie står eit tårn her
+        // Hindrar bygging på opptatte ruter
         if (occupiedCells.Contains(cell))
         {
             Debug.Log("Ruta er opptatt!");
             return;
         }
 
+        // Sjekkar om MoneyManager finst
+        if (MoneyManager.Instance == null)
+        {
+            Debug.LogWarning("MoneyManager manglar!");
+            return;
+        }
+
+        // Prøver å betale 50$ for tårnet
+        // Dersom spelaren ikkje har råd, blir det ikkje plassert
+        if (!MoneyManager.Instance.TrySpend(rangedTowerCost))
+        {
+            return;
+        }
+
         // Finn midten av ruta
-        Vector3 position = groundTilemap.GetCellCenterWorld(cell);
+        Vector3 position =
+            groundTilemap.GetCellCenterWorld(cell);
+
         position.z = 0f;
 
-        // Opprett tårnet på ruta
-        Instantiate(rangedTowerPrefab, position, Quaternion.identity);
+        // Opprettar tårnet
+        Instantiate(
+            rangedTowerPrefab,
+            position,
+            Quaternion.identity
+        );
 
-        // Registrer ruta som opptatt
+        // Marker ruta som opptatt
         occupiedCells.Add(cell);
 
-        // Avslutt byggjemodus etter plassering
+        // Avsluttar byggjemodus
         isPlacing = false;
+
+        Debug.Log("Tårn kjøpt for " + rangedTowerCost + "$!");
     }
 }
