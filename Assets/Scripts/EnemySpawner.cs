@@ -18,56 +18,69 @@ public class EnemySpawner : MonoBehaviour
     public GameObject mediumEnemy;
     public GameObject tankEnemy;
 
-    // Ruta som fiendane skal følgje
+    // Ruta fiendane skal følgje
     public Transform[] waypoints;
 
-    // Kor lenge me ventar mellom kvar fiende
+    // Tid mellom kvar fiende
     public float spawnDelay = 1.5f;
 
-    // Liste over alle waves
+    // Alle waves i spelet
     public WaveData[] waves;
 
-    // Held styr på kva wave me er på
+    // Nummeret på siste wave som blei starta
     public int currentWave = 0;
 
-    // Hindrar fleire waves i å starte samtidig
+    // Hindrar fleire waves i å køyre samtidig
     private bool waveRunning = false;
 
-    // Denne funksjonen skal knytast til Start Wave-knappen
+    // Belønninga for første wave
+    public int startingReward = 50;
+
+    // Kor mykje belønninga aukar for kvar wave
+    public int rewardIncrease = 10;
+
+    // Blir kalla når spelaren trykkjer Start Wave
     public void StartNextWave()
     {
         // Ikkje start dersom ei wave allereie køyrer
+        // eller dersom alle waves er fullførte
         if (waveRunning || currentWave >= waves.Length)
             return;
 
+        // Sjekkar at waypoint-lista finst
         if (waypoints == null || waypoints.Length == 0)
         {
             Debug.LogError("Missing waypoints!");
             return;
         }
 
-        // Start neste wave
+        // Startar neste wave
         StartCoroutine(SpawnWave(waves[currentWave]));
     }
 
     IEnumerator SpawnWave(WaveData wave)
     {
+        // Marker at ei wave er aktiv
         waveRunning = true;
+
+        // Aukar wave-nummeret
         currentWave++;
 
         Debug.Log("Starting Wave " + currentWave);
 
-        // Spawn fiendane i denne bølgja
+        // Spawner alle normale fiendar
         yield return StartCoroutine(
             SpawnEnemies(normalEnemy, wave.normalCount));
 
+        // Spawner alle medium-fiendar
         yield return StartCoroutine(
             SpawnEnemies(mediumEnemy, wave.mediumCount));
 
+        // Spawner alle tank-fiendar
         yield return StartCoroutine(
             SpawnEnemies(tankEnemy, wave.tankCount));
 
-        // Vent til alle fiendane er drepne
+        // Ventar til alle fiendane anten er drepne
         // eller har nådd slutten av vegen
         while (FindObjectsByType<EnemyHealth>(
             FindObjectsInactive.Exclude,
@@ -76,18 +89,39 @@ public class EnemySpawner : MonoBehaviour
             yield return null;
         }
 
-        // Bølgja er ferdig
+        // Waven er no ferdig
         waveRunning = false;
 
         Debug.Log("Wave " + currentWave + " completed!");
+
+        // REKNAR UT WAVE-BELØNNINGA
+        // Wave 1 = 50$, wave 2 = 60$, wave 3 = 70$ osv.
+        int reward = startingReward +
+                     (currentWave - 1) * rewardIncrease;
+
+        // Gir spelaren pengar dersom MoneyManager finst
+        if (MoneyManager.Instance != null)
+        {
+            MoneyManager.Instance.AddCoins(reward);
+
+            Debug.Log(
+                "Wave " + currentWave +
+                " fullført! Du fekk " + reward + "$!"
+            );
+        }
+        else
+        {
+            Debug.LogWarning("MoneyManager manglar!");
+        }
     }
 
     IEnumerator SpawnEnemies(GameObject prefab, int count)
     {
-        // Ingen fiendar å lage av denne typen
+        // Stoppar dersom me ikkje skal lage fiendar
         if (count <= 0)
             yield break;
 
+        // Sjekkar om fiende-prefaben finst
         if (prefab == null)
         {
             Debug.LogError("Enemy prefab missing!");
@@ -97,23 +131,24 @@ public class EnemySpawner : MonoBehaviour
         // Lagar riktig antal fiendar
         for (int i = 0; i < count; i++)
         {
-            // Opprett ein fiende ved starten av ruta
+            // Opprettar fienden ved første waypoint
             GameObject enemy = Instantiate(
                 prefab,
                 waypoints[0].position,
                 Quaternion.identity
             );
 
-            // Gi fienden waypoint-lista
+            // Finn EnemyMovement på fienden
             EnemyMovement movement =
                 enemy.GetComponent<EnemyMovement>();
 
+            // Gir fienden waypoint-lista
             if (movement != null)
             {
                 movement.waypoints = waypoints;
             }
 
-            // Vent før neste fiende blir oppretta
+            // Ventar før neste fiende
             yield return new WaitForSeconds(spawnDelay);
         }
     }
