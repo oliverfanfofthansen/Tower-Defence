@@ -36,19 +36,4 @@ public class MoneyManager : MonoBehaviour
         coins += amount;
     }
 
-    void OnGUI()
-    {
-        // Bestemmer korleis pengeteksten skal sjå ut
-        GUIStyle style = new GUIStyle(GUI.skin.label);
-        style.fontSize = 24;
-        style.fontStyle = FontStyle.Bold;
-        style.normal.textColor = Color.black;
-
-        // Viser kor mange pengar spelaren har
-        GUI.Label(
-            new Rect(10, 45, 250, 40),
-            "Coins: " + coins + "$",
-            style
-        );
-    }
 }

@@ -90,19 +90,6 @@ public class GameManager : MonoBehaviour
 
     void OnGUI()
     {
-        // Stil for HP-teljaren
-        GUIStyle hpStyle = new GUIStyle(GUI.skin.label);
-        hpStyle.fontSize = 24;
-        hpStyle.fontStyle = FontStyle.Bold;
-        hpStyle.normal.textColor = Color.black;
-
-        // Viser HP øvst til venstre
-        GUI.Label(
-            new Rect(10, 10, 250, 40),
-            "HP: " + currentHealth + "/" + maxHealth,
-            hpStyle
-        );
-
         // Viser ikkje sluttmenyen før spelet er ferdig
         if (!IsGameFinished)
             return;
