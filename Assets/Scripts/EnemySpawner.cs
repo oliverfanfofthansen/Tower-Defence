@@ -13,7 +13,7 @@ public class WaveData
 
 public class EnemySpawner : MonoBehaviour
 {
-    // Fiendetypane våre
+    // Dei tre fiendetypane våre
     public GameObject normalEnemy;
     public GameObject mediumEnemy;
     public GameObject tankEnemy;
@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     // Punkta fiendane følgjer
     public Transform[] waypoints;
 
-    // Pause mellom kvar fiende
+    // Tid mellom kvar fiende
     public float spawnDelay = 1.5f;
 
     // Alle waves i spelet
@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
     // Nummeret på siste wave som blei starta
     public int currentWave = 0;
 
-    // Hindrar to waves i å køyre samtidig
+    // Hindrar fleire waves i å starte samtidig
     private bool waveRunning = false;
 
     // Belønning for første wave
@@ -42,15 +42,21 @@ public class EnemySpawner : MonoBehaviour
     // Blir kalla frå Start Wave-knappen
     public void StartNextWave()
     {
-        // Sjekkar at waves finst
+        // Sjekkar at wave-lista finst
         if (waves == null)
             return;
 
-        // Ikkje start fleire waves samtidig
+        // Ikkje start dersom ei wave allereie køyrer
+        // eller alle waves har blitt starta
         if (waveRunning || currentWave >= waves.Length)
             return;
 
-        // Sjekkar at waypoints er kopla til
+        // Hindrar nye waves dersom spelet er ferdig
+        if (GameManager.Instance != null &&
+            GameManager.Instance.IsGameFinished)
+            return;
+
+        // Sjekkar at waypoint-lista er kopla til
         if (waypoints == null || waypoints.Length == 0)
         {
             Debug.LogError("Missing waypoints!");
@@ -63,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnWave(WaveData wave)
     {
-        // Marker at wave er aktiv
+        // Marker at ei wave er aktiv
         waveRunning = true;
 
         // Aukar wave-nummeret
@@ -71,19 +77,20 @@ public class EnemySpawner : MonoBehaviour
 
         Debug.Log("Starting Wave " + currentWave);
 
-        // Lagar normale fiendar
+        // Opprettar normale fiendar
         yield return StartCoroutine(
             SpawnEnemies(normalEnemy, wave.normalCount));
 
-        // Lagar medium-fiendar
+        // Opprettar medium-fiendar
         yield return StartCoroutine(
             SpawnEnemies(mediumEnemy, wave.mediumCount));
 
-        // Lagar tank-fiendar
+        // Opprettar tank-fiendar
         yield return StartCoroutine(
             SpawnEnemies(tankEnemy, wave.tankCount));
 
-        // Ventar til alle fiendane er borte
+        // Ventar til alle fiendane er drepne
+        // eller har nådd slutten av vegen
         while (FindObjectsByType<EnemyHealth>(
             FindObjectsInactive.Exclude,
             FindObjectsSortMode.None).Length > 0)
@@ -91,41 +98,50 @@ public class EnemySpawner : MonoBehaviour
             yield return null;
         }
 
-        // Wave er ferdig
+        // Marker at waven er ferdig
         waveRunning = false;
 
         Debug.Log("Wave " + currentWave + " completed!");
 
-        // Reknar ut den vanlege wave-belønninga
+        // Dersom spelaren har tapt, skal han ikkje få
+        // belønning eller vinne spelet
+        if (GameManager.Instance != null &&
+            GameManager.Instance.IsGameFinished)
+        {
+            yield break;
+        }
+
+        // Reknar ut vanleg wave-belønning
+        // Wave 1 = 50$, wave 2 = 60$ osv.
         int waveReward =
             startingReward + (currentWave - 1) * rewardIncrease;
 
-        // Finn alle Farms som er plasserte på kartet
+        // Finn alle Farms som står på kartet
         FarmIncome[] farms = FindObjectsByType<FarmIncome>(
             FindObjectsInactive.Exclude,
             FindObjectsSortMode.None
         );
 
-        // Reknar ut kor mykje alle Farms produserer
+        // Reknar ut samla Farm-inntekt
         int farmReward = 0;
 
         foreach (FarmIncome farm in farms)
         {
-            // Legg til inntekta frå denne farmen
+            // Kvar Farm bidreg med si eiga inntekt
             farmReward += farm.coinsPerWave;
         }
 
-        // Legg saman wave-belønning og Farm-inntekt
+        // Legg saman alle belønningane
         int totalReward = waveReward + farmReward;
 
-        // Betaler ut pengane til spelaren
+        // Gir spelaren pengane
         if (MoneyManager.Instance != null)
         {
             MoneyManager.Instance.AddCoins(totalReward);
 
             Debug.Log(
                 "Wave " + currentWave + " completed!" +
-                " Wave reward: " + waveReward + "$" +
+                " | Wave reward: " + waveReward + "$" +
                 " | Farm income: " + farmReward + "$" +
                 " | Total: " + totalReward + "$"
             );
@@ -133,6 +149,20 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             Debug.LogWarning("MoneyManager manglar!");
+        }
+
+        // NYTT: Sjekkar om den siste waven er fullført
+        if (currentWave >= waves.Length)
+        {
+            Debug.Log("Alle waves er fullførte!");
+
+            // Gir spelaren siger dersom GameManager finst
+            // og spelaren ikkje allereie har tapt
+            if (GameManager.Instance != null &&
+                !GameManager.Instance.IsGameFinished)
+            {
+                GameManager.Instance.WinGame();
+            }
         }
     }
 
@@ -142,34 +172,39 @@ public class EnemySpawner : MonoBehaviour
         if (count <= 0)
             yield break;
 
-        // Sjekkar at prefab-en finst
+        // Sjekkar at fiende-prefaben finst
         if (prefab == null)
         {
             Debug.LogError("Enemy prefab missing!");
             yield break;
         }
 
-        // Lagar riktig antal fiendar
+        // Opprettar riktig antal fiendar
         for (int i = 0; i < count; i++)
         {
-            // Opprettar ein fiende ved første waypoint
+            // Stoppar spawning dersom spelaren har tapt
+            if (GameManager.Instance != null &&
+                GameManager.Instance.IsGameFinished)
+                yield break;
+
+            // Lagar ein fiende ved første waypoint
             GameObject enemy = Instantiate(
                 prefab,
                 waypoints[0].position,
                 Quaternion.identity
             );
 
-            // Finn bevegelsesscriptet på fienden
+            // Finn EnemyMovement-komponenten
             EnemyMovement movement =
                 enemy.GetComponent<EnemyMovement>();
 
-            // Gir fienden ruta han skal følgje
+            // Gir fienden waypoint-lista
             if (movement != null)
             {
                 movement.waypoints = waypoints;
             }
 
-            // Ventar før neste fiende kjem
+            // Ventar før neste fiende blir oppretta
             yield return new WaitForSeconds(spawnDelay);
         }
     }

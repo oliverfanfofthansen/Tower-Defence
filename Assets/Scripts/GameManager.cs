@@ -1,19 +1,22 @@
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     // Gjer GameManager tilgjengeleg for andre script
     public static GameManager Instance;
 
-    // Kor mykje HP spelaren startar med
+    // Kor mykje HP spelaren har
     public int maxHealth = 100;
-
-    // Kor mykje HP spelaren har akkurat no
     public int currentHealth;
 
-    // Er spelet over?
+    // Held styr på om spelaren har vunne eller tapt
     private bool gameOver = false;
+    private bool victory = false;
+
+    // Andre script kan sjekke om spelet er ferdig
+    public bool IsGameFinished => gameOver || victory;
 
     void Awake()
     {
@@ -23,15 +26,15 @@ public class GameManager : MonoBehaviour
         // Startar med full HP
         currentHealth = maxHealth;
 
-        // Sørgjer for at spelet ikkje er pausa ved start
+        // Sørgjer for normal spelefart
         Time.timeScale = 1f;
     }
 
-    // Blir kalla når ein fiende når slutten av vegen
+    // Blir kalla når ein fiende når slutten
     public void TakeDamage(int damage)
     {
-        // Ikkje ta meir skade etter Game Over
-        if (gameOver)
+        // Ikkje ta skade etter at spelet er ferdig
+        if (IsGameFinished)
             return;
 
         // Trekkjer HP utan å gå under null
@@ -47,47 +50,99 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Blir kalla når spelaren mistar all HP
     void GameOver()
     {
-        // Marker at spelet er ferdig
         gameOver = true;
 
         Debug.Log("GAME OVER!");
 
-        // Stoppar spelet
+        // Stoppar spelverda
         Time.timeScale = 0f;
+    }
+
+    // NYTT: Blir kalla etter den siste waven
+    public void WinGame()
+    {
+        // Hindrar siger dersom spelet allereie er ferdig
+        if (IsGameFinished)
+            return;
+
+        victory = true;
+
+        Debug.Log("YOU WIN!");
+
+        // Stoppar spelverda
+        Time.timeScale = 0f;
+    }
+
+    // NYTT: Startar spelet heilt på nytt
+    public void RestartGame()
+    {
+        // Normal spelefart før scena blir lasta inn igjen
+        Time.timeScale = 1f;
+
+        // Lastar inn den aktive scena på nytt
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().name
+        );
     }
 
     void OnGUI()
     {
-        // Lager tekststil for HP-teljaren
-        GUIStyle style = new GUIStyle(GUI.skin.label);
-        style.fontSize = 24;
-        style.fontStyle = FontStyle.Bold;
-        style.normal.textColor = Color.black;
+        // Stil for HP-teljaren
+        GUIStyle hpStyle = new GUIStyle(GUI.skin.label);
+        hpStyle.fontSize = 24;
+        hpStyle.fontStyle = FontStyle.Bold;
+        hpStyle.normal.textColor = Color.black;
 
         // Viser HP øvst til venstre
         GUI.Label(
             new Rect(10, 10, 250, 40),
             "HP: " + currentHealth + "/" + maxHealth,
-            style
+            hpStyle
         );
 
-        // Viser Game Over midt på skjermen
-        if (gameOver)
-        {
-            GUIStyle gameOverStyle = new GUIStyle(GUI.skin.label);
-            gameOverStyle.fontSize = 48;
-            gameOverStyle.fontStyle = FontStyle.Bold;
-            gameOverStyle.normal.textColor = Color.red;
-            gameOverStyle.alignment = TextAnchor.MiddleCenter;
+        // Viser ikkje sluttmenyen før spelet er ferdig
+        if (!IsGameFinished)
+            return;
 
-            GUI.Label(
-                new Rect(0, Screen.height / 2 - 50,
-                         Screen.width, 100),
-                "GAME OVER",
-                gameOverStyle
-            );
+        // Stil for Game Over og You Win
+        GUIStyle titleStyle = new GUIStyle(GUI.skin.label);
+        titleStyle.fontSize = 48;
+        titleStyle.fontStyle = FontStyle.Bold;
+        titleStyle.alignment = TextAnchor.MiddleCenter;
+
+        // Grøn tekst ved siger, raud ved tap
+        titleStyle.normal.textColor =
+            victory ? Color.green : Color.red;
+
+        string message = victory ? "YOU WIN!" : "GAME OVER";
+
+        // Viser resultatet midt på skjermen
+        GUI.Label(
+            new Rect(
+                0,
+                Screen.height / 2 - 90,
+                Screen.width,
+                80
+            ),
+            message,
+            titleStyle
+        );
+
+        // Restart-knapp som fungerer sjølv om tida er stoppa
+        if (GUI.Button(
+            new Rect(
+                Screen.width / 2 - 90,
+                Screen.height / 2,
+                180,
+                50
+            ),
+            "Restart"
+        ))
+        {
+            RestartGame();
         }
     }
 }
