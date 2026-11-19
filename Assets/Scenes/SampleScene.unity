@@ -8077,15 +8077,30 @@ MonoBehaviour:
   - {fileID: 553243090}
   spawnDelay: 1.5
   waves:
-  - normalCount: 3
+  - normalCount: 5
     mediumCount: 0
     tankCount: 0
-  - normalCount: 2
+  - normalCount: 7
+    mediumCount: 0
+    tankCount: 0
+  - normalCount: 6
     mediumCount: 2
     tankCount: 0
-  - normalCount: 1
-    mediumCount: 1
+  - normalCount: 8
+    mediumCount: 3
+    tankCount: 0
+  - normalCount: 7
+    mediumCount: 4
     tankCount: 1
+  - normalCount: 8
+    mediumCount: 5
+    tankCount: 1
+  - normalCount: 10
+    mediumCount: 6
+    tankCount: 2
+  - normalCount: 12
+    mediumCount: 7
+    tankCount: 3
   currentWave: 0
   nextWaveDelay: 10
   startingReward: 50
