@@ -96,6 +96,10 @@ public class EnemySpawner : MonoBehaviour
         if (HasNextWave)
             nextWaveUnlockTime = Time.time + Mathf.Max(1f, nextWaveDelay);
 
+        // Betal for førre wave når neste startar. Den første har inga førre wave.
+        if (currentWave > 1)
+            PayWaveReward(currentWave - 1);
+
         StartCoroutine(SpawnWave(wave, currentWave));
     }
 
@@ -117,17 +121,41 @@ public class EnemySpawner : MonoBehaviour
         yield return StartCoroutine(
             SpawnEnemies(tankEnemy, wave.tankCount, enemies));
 
-        // For belønninga ventar vi berre på fiendane frå denne waven.
+        // Waven er ferdig når hennar eigne fiendar er borte.
         while (!IsGameFinished && enemies.Exists(enemy => enemy != null && enemy.activeInHierarchy))
             yield return null;
 
         // Denne waven er ferdig. Andre waves kan framleis køyre.
         activeWaves--;
 
-        // Ved tap skal vi ikkje gi belønning eller utløysa siger.
+        // Ved tap skal vi ikkje starte ein ny teljar eller utløysa siger.
         if (IsGameFinished)
             yield break;
 
+        Debug.Log("Wave " + waveNumber + " completed!");
+
+        // Ved overlapp ventar vi til alle aktive waves er ferdige.
+        if (activeWaves != 0)
+            yield break;
+
+        if (HasNextWave)
+        {
+            // Opne knappen med ein gong og gi spelaren ti sekund før automatisk start.
+            nextWaveUnlockTime = 0f;
+            nextWaveAutoStartTime = Time.time + AutoStartDelay;
+        }
+        else
+        {
+            // Siste wave har ingen neste wave, så ho blir betalt ved siger.
+            PayWaveReward(currentWave);
+            Debug.Log("Alle waves er fullførte!");
+            if (GameManager.Instance != null)
+                GameManager.Instance.WinGame();
+        }
+    }
+
+    void PayWaveReward(int waveNumber)
+    {
         // Reknar ut vanleg wave-belønning
         // Wave 1 = 50$, wave 2 = 60$ osv.
         int waveReward =
@@ -157,7 +185,7 @@ public class EnemySpawner : MonoBehaviour
             MoneyManager.Instance.AddCoins(totalReward);
 
             Debug.Log(
-                "Wave " + waveNumber + " completed!" +
+                "Belønning for wave " + waveNumber +
                 " | Wave reward: " + waveReward + "$" +
                 " | Farm income: " + farmReward + "$" +
                 " | Total: " + totalReward + "$"
@@ -166,23 +194,6 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             Debug.LogWarning("MoneyManager manglar!");
-        }
-
-        // Ved overlapp ventar vi til alle aktive waves er ferdige.
-        if (activeWaves != 0)
-            yield break;
-
-        if (HasNextWave)
-        {
-            // Opne knappen med ein gong og gi spelaren ti sekund før automatisk start.
-            nextWaveUnlockTime = 0f;
-            nextWaveAutoStartTime = Time.time + AutoStartDelay;
-        }
-        else
-        {
-            Debug.Log("Alle waves er fullførte!");
-            if (GameManager.Instance != null)
-                GameManager.Instance.WinGame();
         }
     }
 
@@ -218,7 +229,7 @@ public class EnemySpawner : MonoBehaviour
                 Quaternion.identity
             );
 
-            // Registrerer fienden slik at rett wave får belønninga når han er borte.
+            // Registrerer fienden slik at vi veit når denne waven er ferdig.
             enemies.Add(enemy);
 
             // Finn EnemyMovement-komponenten

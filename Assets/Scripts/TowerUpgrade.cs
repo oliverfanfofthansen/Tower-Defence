@@ -9,6 +9,14 @@ public class TowerUpgrade : MonoBehaviour
 {
     // Hugsar kva bygning spelaren har valt
     private static TowerUpgrade selectedTower;
+    internal static TowerUpgrade SelectedTower => selectedTower;
+
+    // Førehandsvisinga og kjøpet brukar dei same oppgraderingstala.
+    internal const float RangedRangeIncrease = 0.5f;
+    internal const float FireRateIncrease = 0.5f;
+    internal const int MeleeDamageIncrease = 2;
+    internal const float MeleeRangeIncrease = 0.3f;
+    internal const int FarmIncomeIncrease = 25;
 
     // Nivået til denne bygningen
     private int level = 1;
@@ -18,6 +26,13 @@ public class TowerUpgrade : MonoBehaviour
     private TowerAttack rangedAttack;
     private MeleeAttack meleeAttack;
     private FarmIncome farmIncome;
+
+    // Menyen les nivået og dei faktiske komponentane på den valde bygningen.
+    internal int Level => level;
+    internal TowerAttack RangedAttack => rangedAttack;
+    internal MeleeAttack MeleeAttack => meleeAttack;
+    internal FarmIncome Farm => farmIncome;
+    private TowerUpgradeUI upgradeMenu;
 
     // Brukast til å registrere klikk på bygningen
     private BoxCollider2D clickCollider;
@@ -30,6 +45,10 @@ public class TowerUpgrade : MonoBehaviour
         farmIncome = GetComponent<FarmIncome>();
 
         clickCollider = GetComponent<BoxCollider2D>();
+
+        // NYTT: Brukar den oppdaterte Unity-funksjonen
+        // til å finne oppgraderingsmenyen.
+        upgradeMenu = FindAnyObjectByType<TowerUpgradeUI>();
     }
 
     void Update()
@@ -38,14 +57,21 @@ public class TowerUpgrade : MonoBehaviour
         if (Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // Sjekkar om spelaren klikkar på ein UI-knapp
+            Vector2 mouse = Mouse.current.position.ReadValue();
+
+            // Behald valet ved klikk inne i oppgraderingspanelet
+            if (upgradeMenu != null &&
+                upgradeMenu.ContainsScreenPoint(mouse))
+                return;
+
+            // Sjekkar om spelaren klikkar på UI
             bool clickedUI =
                 EventSystem.current != null &&
                 EventSystem.current.IsPointerOverGameObject();
 
             if (clickedUI)
             {
-                // Lukkar oppgraderingsmenyen ved UI-klikk
+                // Lukkar menyen ved andre UI-klikk
                 if (selectedTower == this)
                     selectedTower = null;
             }
@@ -55,10 +81,6 @@ public class TowerUpgrade : MonoBehaviour
 
                 if (cam != null)
                 {
-                    // Hentar museposisjonen
-                    Vector2 mouse =
-                        Mouse.current.position.ReadValue();
-
                     // Konverterer museposisjonen til spelverda
                     Vector3 world = cam.ScreenToWorldPoint(
                         new Vector3(
@@ -68,10 +90,9 @@ public class TowerUpgrade : MonoBehaviour
                         )
                     );
 
-                    // Sjekkar om spelaren klikka på denne bygningen
+                    // Sjekkar om spelaren klikka på bygningen
                     if (clickCollider.OverlapPoint(world))
                     {
-                        // Vel denne bygningen
                         selectedTower = this;
 
                         Debug.Log(
@@ -81,14 +102,14 @@ public class TowerUpgrade : MonoBehaviour
                     }
                     else if (selectedTower == this)
                     {
-                        // NYTT: Klikk utanfor bygningen lukkar menyen
+                        // Klikk utanfor lukkar menyen
                         selectedTower = null;
                     }
                 }
             }
         }
 
-        // Trykk U for å oppgradere den valde bygningen
+        // U-tasten oppgraderer den valde bygningen
         if (selectedTower == this &&
             Keyboard.current != null &&
             Keyboard.current.uKey.wasPressedThisFrame)
@@ -106,7 +127,7 @@ public class TowerUpgrade : MonoBehaviour
     }
 
     // Finn namnet på bygningen
-    string GetBuildingName()
+    internal string GetBuildingName()
     {
         if (rangedAttack != null)
             return "Ranged Tower";
@@ -121,7 +142,7 @@ public class TowerUpgrade : MonoBehaviour
     }
 
     // Reknar ut prisen på neste oppgradering
-    int GetUpgradeCost()
+    internal int GetUpgradeCost()
     {
         // Ranged: 60$ og 100$
         if (rangedAttack != null)
@@ -139,7 +160,7 @@ public class TowerUpgrade : MonoBehaviour
     }
 
     // Oppgraderer bygningen
-    void UpgradeBuilding()
+    internal void UpgradeBuilding()
     {
         // Hindrar oppgradering over maks level
         if (level >= maxLevel)
@@ -153,7 +174,9 @@ public class TowerUpgrade : MonoBehaviour
             meleeAttack == null &&
             farmIncome == null)
         {
-            Debug.LogWarning("Bygningen manglar angrep eller inntekt!");
+            Debug.LogWarning(
+                "Bygningen manglar angrep eller inntekt!"
+            );
             return;
         }
 
@@ -173,21 +196,21 @@ public class TowerUpgrade : MonoBehaviour
         // Ranged får betre rekkevidde og skotfart
         if (rangedAttack != null)
         {
-            rangedAttack.range += 0.5f;
-            rangedAttack.fireRate += 0.5f;
+            rangedAttack.range += RangedRangeIncrease;
+            rangedAttack.fireRate += FireRateIncrease;
         }
 
         // Melee får meir skade og betre rekkevidde
         else if (meleeAttack != null)
         {
-            meleeAttack.damage += 2;
-            meleeAttack.range += 0.3f;
+            meleeAttack.damage += MeleeDamageIncrease;
+            meleeAttack.range += MeleeRangeIncrease;
         }
 
         // Farm får 25$ meir per wave
         else if (farmIncome != null)
         {
-            farmIncome.coinsPerWave += 25;
+            farmIncome.coinsPerWave += FarmIncomeIncrease;
         }
 
         // Aukar nivået
@@ -197,32 +220,6 @@ public class TowerUpgrade : MonoBehaviour
             GetBuildingName() +
             " oppgradert til level " + level +
             " for " + cost + "$!"
-        );
-    }
-
-    void OnGUI()
-    {
-        // Viser berre menyen for den valde bygningen
-        if (selectedTower != this)
-            return;
-
-        string message =
-            GetBuildingName() + " - LEVEL " + level;
-
-        if (level < maxLevel)
-        {
-            message += "\nTrykk U for oppgradering: " +
-                       GetUpgradeCost() + "$";
-        }
-        else
-        {
-            message += "\nMAX LEVEL!";
-        }
-
-        // Mellombels oppgraderingsmeny
-        GUI.Box(
-            new Rect(Screen.width / 2 - 150, 10, 300, 70),
-            message
         );
     }
 
