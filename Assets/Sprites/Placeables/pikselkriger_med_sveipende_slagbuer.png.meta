@@ -1,0 +1,795 @@
+fileFormatVersion: 2
+guid: 595e153f39b5c8540862d23103c447b3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6488516076499883405
+    second: pikselkriger_med_sveipende_slagbuer_0
+  - first:
+      213: -6047025300655144061
+    second: pikselkriger_med_sveipende_slagbuer_1
+  - first:
+      213: -6683805577946916590
+    second: pikselkriger_med_sveipende_slagbuer_2
+  - first:
+      213: 3166043523126998306
+    second: pikselkriger_med_sveipende_slagbuer_3
+  - first:
+      213: 3118727120249431241
+    second: pikselkriger_med_sveipende_slagbuer_4
+  - first:
+      213: 4220570943909706523
+    second: pikselkriger_med_sveipende_slagbuer_5
+  - first:
+      213: -7779125866214779616
+    second: pikselkriger_med_sveipende_slagbuer_6
+  - first:
+      213: 9193362642658826059
+    second: pikselkriger_med_sveipende_slagbuer_7
+  - first:
+      213: -50637568591937976
+    second: pikselkriger_med_sveipende_slagbuer_8
+  - first:
+      213: 2933211381157159991
+    second: pikselkriger_med_sveipende_slagbuer_9
+  - first:
+      213: 7519916955304875637
+    second: pikselkriger_med_sveipende_slagbuer_10
+  - first:
+      213: 3145158462236272634
+    second: pikselkriger_med_sveipende_slagbuer_11
+  - first:
+      213: 604134592937105984
+    second: pikselkriger_med_sveipende_slagbuer_12
+  - first:
+      213: 936555235684365604
+    second: pikselkriger_med_sveipende_slagbuer_13
+  - first:
+      213: -4951331579800064900
+    second: pikselkriger_med_sveipende_slagbuer_14
+  - first:
+      213: 3764572960368381520
+    second: pikselkriger_med_sveipende_slagbuer_15
+  - first:
+      213: -2337932140406050656
+    second: pikselkriger_med_sveipende_slagbuer_16
+  - first:
+      213: 6302523142688609558
+    second: pikselkriger_med_sveipende_slagbuer_17
+  - first:
+      213: 9159721357258611043
+    second: pikselkriger_med_sveipende_slagbuer_18
+  - first:
+      213: -5426948521770638106
+    second: pikselkriger_med_sveipende_slagbuer_19
+  - first:
+      213: 6269279243031870169
+    second: pikselkriger_med_sveipende_slagbuer_20
+  - first:
+      213: 3870210296389774054
+    second: pikselkriger_med_sveipende_slagbuer_21
+  - first:
+      213: -1640850865448372708
+    second: pikselkriger_med_sveipende_slagbuer_22
+  - first:
+      213: 6200296335735692901
+    second: pikselkriger_med_sveipende_slagbuer_23
+  - first:
+      213: 1024150056675976210
+    second: pikselkriger_med_sveipende_slagbuer_24
+  - first:
+      213: 4692278995284670838
+    second: pikselkriger_med_sveipende_slagbuer_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1254
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1241
+        height: 1216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a20dc810924f5a0800000000000000
+      internalID: -6488516076499883405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_1
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 1153
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38386ae0786a41ca0800000000000000
+      internalID: -6047025300655144061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_2
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 996
+        width: 233
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21913ba3d3a5e33a0800000000000000
+      internalID: -6683805577946916590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_3
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 376
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22539635fcb00fb20800000000000000
+      internalID: 3166043523126998306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_4
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 385
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c428d9cac1f74b20800000000000000
+      internalID: 3118727120249431241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_5
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 347
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1bb21579ea729a30800000000000000
+      internalID: 4220570943909706523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_6
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 320
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02517318d3efa0490800000000000000
+      internalID: -7779125866214779616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_7
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 132
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b47960f6d92659f70800000000000000
+      internalID: 9193362642658826059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_8
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 116
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84eb9cf46691c4ff0800000000000000
+      internalID: -50637568591937976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_9
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 87
+        width: 45
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7346109d53cd4b820800000000000000
+      internalID: 2933211381157159991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_10
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 119
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 576526de0ac1c5860800000000000000
+      internalID: 7519916955304875637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_11
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 124
+        width: 17
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af728e725f8d5ab20800000000000000
+      internalID: 3145158462236272634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_12
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 133
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a9a802631526800800000000000000
+      internalID: 604134592937105984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_13
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 130
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 425bf7756005ffc00800000000000000
+      internalID: 936555235684365604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_14
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 129
+        width: 10
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7ce7d45926594bb0800000000000000
+      internalID: -4951331579800064900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_15
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 95
+        width: 9
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05e4cc179237e3430800000000000000
+      internalID: 3764572960368381520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_16
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 110
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a0f02eea1ffd8fd0800000000000000
+      internalID: -2337932140406050656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_17
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 117
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61512a4f76f077750800000000000000
+      internalID: 6302523142688609558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_18
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 111
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36955fc4b0edd1f70800000000000000
+      internalID: 9159721357258611043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_19
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 112
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e4a789921b9fa4b0800000000000000
+      internalID: -5426948521770638106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_20
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 95
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9daf4a66144f00750800000000000000
+      internalID: 6269279243031870169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_21
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 77
+        width: 10
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ea2f5262cfb5b530800000000000000
+      internalID: 3870210296389774054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_22
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 85
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c16be8bd4d68a39e0800000000000000
+      internalID: -1640850865448372708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_23
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 79
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56e9ea1baa0eb0650800000000000000
+      internalID: 6200296335735692901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_24
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 29
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2142ed4ec03863e00800000000000000
+      internalID: 1024150056675976210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pikselkriger_med_sveipende_slagbuer_25
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 27
+        width: 19
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67938fca2e25e1140800000000000000
+      internalID: 4692278995284670838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pikselkriger_med_sveipende_slagbuer_0: -6488516076499883405
+      pikselkriger_med_sveipende_slagbuer_1: -6047025300655144061
+      pikselkriger_med_sveipende_slagbuer_10: 7519916955304875637
+      pikselkriger_med_sveipende_slagbuer_11: 3145158462236272634
+      pikselkriger_med_sveipende_slagbuer_12: 604134592937105984
+      pikselkriger_med_sveipende_slagbuer_13: 936555235684365604
+      pikselkriger_med_sveipende_slagbuer_14: -4951331579800064900
+      pikselkriger_med_sveipende_slagbuer_15: 3764572960368381520
+      pikselkriger_med_sveipende_slagbuer_16: -2337932140406050656
+      pikselkriger_med_sveipende_slagbuer_17: 6302523142688609558
+      pikselkriger_med_sveipende_slagbuer_18: 9159721357258611043
+      pikselkriger_med_sveipende_slagbuer_19: -5426948521770638106
+      pikselkriger_med_sveipende_slagbuer_2: -6683805577946916590
+      pikselkriger_med_sveipende_slagbuer_20: 6269279243031870169
+      pikselkriger_med_sveipende_slagbuer_21: 3870210296389774054
+      pikselkriger_med_sveipende_slagbuer_22: -1640850865448372708
+      pikselkriger_med_sveipende_slagbuer_23: 6200296335735692901
+      pikselkriger_med_sveipende_slagbuer_24: 1024150056675976210
+      pikselkriger_med_sveipende_slagbuer_25: 4692278995284670838
+      pikselkriger_med_sveipende_slagbuer_3: 3166043523126998306
+      pikselkriger_med_sveipende_slagbuer_4: 3118727120249431241
+      pikselkriger_med_sveipende_slagbuer_5: 4220570943909706523
+      pikselkriger_med_sveipende_slagbuer_6: -7779125866214779616
+      pikselkriger_med_sveipende_slagbuer_7: 9193362642658826059
+      pikselkriger_med_sveipende_slagbuer_8: -50637568591937976
+      pikselkriger_med_sveipende_slagbuer_9: 2933211381157159991
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8311699254583973053}
   - component: {fileID: 7256989251409026566}
   - component: {fileID: 8973674053820673024}
+  - component: {fileID: 5093692465334754154}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -132,3 +133,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 5
   currentHealth: 0
+--- !u!114 &5093692465334754154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220276233865144409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1afe15f2b867b459653300908aa9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWalkAnimation
+  spriteRenderer: {fileID: 0}
+  walkDown:
+  - {fileID: 21300000, guid: 14de88c36177c9e4a8c69cf67697e639, type: 3}
+  - {fileID: 21300000, guid: cbbc4ce0bd813db47acdc09ef3bd43b5, type: 3}
+  walkUp:
+  - {fileID: 21300000, guid: 905d0a6d2ac94c24da12b0b7e050883f, type: 3}
+  - {fileID: 21300000, guid: 384ee7858c5108b4f9f031f4a1c7652e, type: 3}
+  walkSide:
+  - {fileID: 21300000, guid: 39a29cc56f8a55f43b11b4695d9ba10b, type: 3}
+  - {fileID: 21300000, guid: 32745bfd90b7dc64da96cf44e0eec4a8, type: 3}
+  frameDuration: 0.2
