@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Gjer at kvar wave kan ha forskjellige fiendar
 [System.Serializable]
@@ -30,8 +31,32 @@ public class EnemySpawner : MonoBehaviour
     // Nummeret på siste wave som blei starta
     public int currentWave = 0;
 
-    // Hindrar fleire waves i å starte samtidig
-    private bool waveRunning = false;
+    // Kor lenge spelaren må vente frå starten av éi wave til den neste.
+    [Min(1f)]
+    public float nextWaveDelay = 10f;
+
+    // Kor lenge eit tomt brett ventar før neste wave startar sjølv.
+    private const float AutoStartDelay = 10f;
+    private float nextWaveUnlockTime;
+    private float nextWaveAutoStartTime;
+    private int activeWaves;
+
+    // Knappen les dei same reglane som StartNextWave brukar.
+    public bool HasNextWave => waves != null && currentWave < waves.Length;
+    public bool CanStartNextWave => HasNextWave && !IsGameFinished &&
+        Time.time >= nextWaveUnlockTime;
+    public int NextWaveSeconds
+    {
+        get
+        {
+            // Når brettet er tomt, viser vi tida fram til automatisk start.
+            float deadline = nextWaveAutoStartTime > 0f ? nextWaveAutoStartTime : nextWaveUnlockTime;
+            return Mathf.Max(0, Mathf.CeilToInt(deadline - Time.time));
+        }
+    }
+
+    private bool IsGameFinished => GameManager.Instance != null &&
+        GameManager.Instance.IsGameFinished;
 
     // Belønning for første wave
     public int startingReward = 50;
@@ -39,21 +64,21 @@ public class EnemySpawner : MonoBehaviour
     // Kor mykje belønninga aukar per wave
     public int rewardIncrease = 10;
 
-    // Blir kalla frå Start Wave-knappen
+    void Update()
+    {
+        // Start berre automatisk dersom ei wave står klar og spelet framleis går.
+        if (nextWaveAutoStartTime > 0f && Time.time >= nextWaveAutoStartTime && CanStartNextWave)
+        {
+            nextWaveAutoStartTime = 0f;
+            StartNextWave();
+        }
+    }
+
+    // Den eksisterande knappen kallar denne metoden.
     public void StartNextWave()
     {
-        // Sjekkar at wave-lista finst
-        if (waves == null)
-            return;
-
-        // Ikkje start dersom ei wave allereie køyrer
-        // eller alle waves har blitt starta
-        if (waveRunning || currentWave >= waves.Length)
-            return;
-
-        // Hindrar nye waves dersom spelet er ferdig
-        if (GameManager.Instance != null &&
-            GameManager.Instance.IsGameFinished)
+        // Stopp òg raske dobbeltklikk og direkte kall medan knappen er låst.
+        if (!CanStartNextWave)
             return;
 
         // Sjekkar at waypoint-lista er kopla til
@@ -63,58 +88,50 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Startar neste wave
-        StartCoroutine(SpawnWave(waves[currentWave]));
+        // Lås knappen før spawning. Første wave kan startast med ein gong.
+        nextWaveAutoStartTime = 0f;
+        WaveData wave = waves[currentWave];
+        currentWave++;
+        activeWaves++;
+        if (HasNextWave)
+            nextWaveUnlockTime = Time.time + Mathf.Max(1f, nextWaveDelay);
+
+        StartCoroutine(SpawnWave(wave, currentWave));
     }
 
-    IEnumerator SpawnWave(WaveData wave)
+    IEnumerator SpawnWave(WaveData wave, int waveNumber)
     {
-        // Marker at ei wave er aktiv
-        waveRunning = true;
-
-        // Aukar wave-nummeret
-        currentWave++;
-
-        Debug.Log("Starting Wave " + currentWave);
+        // Kvar wave hugsar sine eigne fiendar og sitt eige nummer.
+        List<GameObject> enemies = new List<GameObject>();
+        Debug.Log("Starting Wave " + waveNumber);
 
         // Opprettar normale fiendar
         yield return StartCoroutine(
-            SpawnEnemies(normalEnemy, wave.normalCount));
+            SpawnEnemies(normalEnemy, wave.normalCount, enemies));
 
         // Opprettar medium-fiendar
         yield return StartCoroutine(
-            SpawnEnemies(mediumEnemy, wave.mediumCount));
+            SpawnEnemies(mediumEnemy, wave.mediumCount, enemies));
 
         // Opprettar tank-fiendar
         yield return StartCoroutine(
-            SpawnEnemies(tankEnemy, wave.tankCount));
+            SpawnEnemies(tankEnemy, wave.tankCount, enemies));
 
-        // Ventar til alle fiendane er drepne
-        // eller har nådd slutten av vegen
-        while (FindObjectsByType<EnemyHealth>(
-            FindObjectsInactive.Exclude,
-            FindObjectsSortMode.None).Length > 0)
-        {
+        // For belønninga ventar vi berre på fiendane frå denne waven.
+        while (!IsGameFinished && enemies.Exists(enemy => enemy != null && enemy.activeInHierarchy))
             yield return null;
-        }
 
-        // Marker at waven er ferdig
-        waveRunning = false;
+        // Denne waven er ferdig. Andre waves kan framleis køyre.
+        activeWaves--;
 
-        Debug.Log("Wave " + currentWave + " completed!");
-
-        // Dersom spelaren har tapt, skal han ikkje få
-        // belønning eller vinne spelet
-        if (GameManager.Instance != null &&
-            GameManager.Instance.IsGameFinished)
-        {
+        // Ved tap skal vi ikkje gi belønning eller utløysa siger.
+        if (IsGameFinished)
             yield break;
-        }
 
         // Reknar ut vanleg wave-belønning
         // Wave 1 = 50$, wave 2 = 60$ osv.
         int waveReward =
-            startingReward + (currentWave - 1) * rewardIncrease;
+            startingReward + (waveNumber - 1) * rewardIncrease;
 
         // Finn alle Farms som står på kartet
         FarmIncome[] farms = FindObjectsByType<FarmIncome>(
@@ -140,7 +157,7 @@ public class EnemySpawner : MonoBehaviour
             MoneyManager.Instance.AddCoins(totalReward);
 
             Debug.Log(
-                "Wave " + currentWave + " completed!" +
+                "Wave " + waveNumber + " completed!" +
                 " | Wave reward: " + waveReward + "$" +
                 " | Farm income: " + farmReward + "$" +
                 " | Total: " + totalReward + "$"
@@ -151,22 +168,25 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogWarning("MoneyManager manglar!");
         }
 
-        // NYTT: Sjekkar om den siste waven er fullført
-        if (currentWave >= waves.Length)
+        // Ved overlapp ventar vi til alle aktive waves er ferdige.
+        if (activeWaves != 0)
+            yield break;
+
+        if (HasNextWave)
+        {
+            // Opne knappen med ein gong og gi spelaren ti sekund før automatisk start.
+            nextWaveUnlockTime = 0f;
+            nextWaveAutoStartTime = Time.time + AutoStartDelay;
+        }
+        else
         {
             Debug.Log("Alle waves er fullførte!");
-
-            // Gir spelaren siger dersom GameManager finst
-            // og spelaren ikkje allereie har tapt
-            if (GameManager.Instance != null &&
-                !GameManager.Instance.IsGameFinished)
-            {
+            if (GameManager.Instance != null)
                 GameManager.Instance.WinGame();
-            }
         }
     }
 
-    IEnumerator SpawnEnemies(GameObject prefab, int count)
+    IEnumerator SpawnEnemies(GameObject prefab, int count, List<GameObject> enemies)
     {
         // Ingen fiendar av denne typen
         if (count <= 0)
@@ -182,6 +202,10 @@ public class EnemySpawner : MonoBehaviour
         // Opprettar riktig antal fiendar
         for (int i = 0; i < count; i++)
         {
+            // Vent mellom fiendane, også ved byte av type. Etter den siste kan waven bli ferdig med ein gong.
+            if (enemies.Count > 0)
+                yield return new WaitForSeconds(spawnDelay);
+
             // Stoppar spawning dersom spelaren har tapt
             if (GameManager.Instance != null &&
                 GameManager.Instance.IsGameFinished)
@@ -194,6 +218,9 @@ public class EnemySpawner : MonoBehaviour
                 Quaternion.identity
             );
 
+            // Registrerer fienden slik at rett wave får belønninga når han er borte.
+            enemies.Add(enemy);
+
             // Finn EnemyMovement-komponenten
             EnemyMovement movement =
                 enemy.GetComponent<EnemyMovement>();
@@ -203,9 +230,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 movement.waypoints = waypoints;
             }
-
-            // Ventar før neste fiende blir oppretta
-            yield return new WaitForSeconds(spawnDelay);
         }
     }
 }
